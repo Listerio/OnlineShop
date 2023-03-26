@@ -1,0 +1,25 @@
+Product: This entity represents the products being sold in the online store.
+It would typically contain information such as product name, description, price, and images.
+
+Category: This entity represents the categories of products in the online store.
+It would typically contain information such as category name, description,
+and an association with one or more products.
+
+Customer: This entity represents the customers who use the online store.
+It would typically contain information such as customer name, email, address,
+ and an association with one or more orders.
+
+Order: This entity represents the orders placed by customers in the online store.
+It would typically contain information such as order date, order status,
+associated customer, and an association with one or more order items.
+
+Order Item: This entity represents the individual items that make up an order in the online store.
+It would typically contain information such as the associated product, quantity, and price.
+
+Cart: This entity represents the cart of a customer in the online store.
+It would typically contain information such as the associated customer and a list
+of items that the customer has added to their cart.
+
+Payment: This entity represents the payments made by customers in the online store.
+It would typically contain information such as the payment amount, payment method,
+and an association with one or more orders.

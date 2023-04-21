@@ -11,6 +11,8 @@ import java.util.List;
 @Table(name = "orders")
 public class Order {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,6 +26,7 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
+
 
     @Enumerated(EnumType.STRING)
     private OrderStatus Status;
@@ -97,6 +100,7 @@ public class Order {
                 ", orderDate=" + orderDate +
                 ", orderItems=" + orderItems +
                 ", Status=" + Status +
-                '}';
+                "}\n";
+
     }
 }

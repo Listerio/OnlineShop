@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -14,6 +15,10 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @OneToMany(mappedBy = "orderedProduct",cascade = CascadeType.ALL)
+    private List<OrderItem> orderItems;
+
     @JsonProperty("name")
     @Column(nullable = false,name = "product_name")
     private String productName;
@@ -53,7 +58,7 @@ public class Product {
 
     }
 
-    public Product( String productName, double productPrice, Category productCategory,
+    public Product(String productName, double productPrice, Category productCategory,
                    Subcategory productSubcategory, String productDescription, String productImage1,
                    String productImage2,String productImage3, String productImage4)
     {
@@ -171,6 +176,15 @@ public class Product {
         this.productImage4 = productImage4;
     }
 
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
+
     @Override
     public String toString() {
         return "Product{" +
@@ -181,6 +195,18 @@ public class Product {
                 ", productSubcategory=" + productSubcategory +
                 ", productDescription='" + productDescription + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product product)) return false;
+        return Double.compare(product.getProductPrice(), getProductPrice()) == 0 && Objects.equals(getId(), product.getId()) && Objects.equals(getOrderItems(), product.getOrderItems()) && Objects.equals(getProductName(), product.getProductName()) && getProductCategory() == product.getProductCategory() && getProductSubcategory() == product.getProductSubcategory() && Objects.equals(getProductDescription(), product.getProductDescription()) && Objects.equals(getProductImage1(), product.getProductImage1()) && Objects.equals(getProductImage2(), product.getProductImage2()) && Objects.equals(getProductImage3(), product.getProductImage3()) && Objects.equals(getProductImage4(), product.getProductImage4()) && Objects.equals(getCartItems(), product.getCartItems()) && Objects.equals(getProductOwner(), product.getProductOwner());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getOrderItems(), getProductName(), getProductPrice(), getProductCategory(), getProductSubcategory(), getProductDescription(), getProductImage1(), getProductImage2(), getProductImage3(), getProductImage4(), getCartItems(), getProductOwner());
     }
 }
 

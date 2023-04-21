@@ -18,32 +18,31 @@ public class CartItems {
     private int number;
 
 
-
     @ManyToMany(mappedBy = "products")
     private List<Cart> cart;
 
 
-    public CartItems(Product product, int number, List<Cart> cart) {
-        this.product = product;
-        this.number = number;
-        this.cart = cart;
-    }
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
-    public CartItems(Long id, Product product, int number, List<Cart> cart) {
+    public CartItems(Long id, Product product, int number, List<Cart> cart, Customer customer) {
         this.id = id;
         this.product = product;
         this.number = number;
         this.cart = cart;
+        this.customer = customer;
     }
 
     public CartItems(){
 
     }
-    public CartItems(Product product, int number) {
+
+    public CartItems(Product product, int number, Customer customer) {
         this.product = product;
         this.number = number;
+        this.customer = customer;
     }
-
 
     public Long getId() {
         return id;

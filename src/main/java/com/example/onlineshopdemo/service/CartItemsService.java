@@ -1,15 +1,18 @@
 package com.example.onlineshopdemo.service;
+import com.example.onlineshopdemo.entity.Cart;
 import com.example.onlineshopdemo.entity.CartItems;
-import com.example.onlineshopdemo.entity.Customer;
-import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 public interface CartItemsService {
 
-    public void addToCart(Long productId,Integer number,String customerEmail);
-    void updateCartItem(CartItems cartItems,String customerMail);
+    List<CartItems> clearCart(String email);
+    String addToCart(Long productId,Integer number,String customerEmail);
+    String updateCartItem(CartItems cartItems, String customerMail);
     void deleteCartItems(Long id);
     CartItems getCartItem(Long id);
+    Cart getCart(String mail);
 
 
 

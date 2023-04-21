@@ -13,8 +13,9 @@ public class OrderItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
-    @Column(nullable = false)
-    private String productName;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product orderedProduct;
     @Column(nullable = false)
     private int quantity;
     // Constructor, getters, and setters
@@ -23,8 +24,8 @@ public class OrderItem {
 
     }
 
-    public OrderItem(String productName, int quantity) {
-        this.productName = productName;
+    public OrderItem(Product product, int quantity) {
+        this.orderedProduct=product;
         this.quantity = quantity;
     }
 
@@ -44,12 +45,12 @@ public class OrderItem {
         this.order = order;
     }
 
-    public String getProductName() {
-        return productName;
+    public Product getOrderedProduct() {
+        return orderedProduct;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setOrderedProduct(Product orderedProduct) {
+        this.orderedProduct = orderedProduct;
     }
 
     public int getQuantity() {
@@ -58,5 +59,14 @@ public class OrderItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "id=" + id +
+                ", orderedProduct=" + orderedProduct +
+                ", quantity=" + quantity +
+                '}';
     }
 }

@@ -35,6 +35,14 @@ public class Payment {
         this.order = order;
     }
 
+    public List<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
+    }
+
     public Long getId() {
         return id;
     }

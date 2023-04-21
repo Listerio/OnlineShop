@@ -1,11 +1,15 @@
 package com.example.onlineshopdemo.service.impl;
 
 import com.example.onlineshopdemo.dao.ProductOwnerRepository;
+import com.example.onlineshopdemo.dao.ProductRepository;
+import com.example.onlineshopdemo.defaults.Defaults;
+import com.example.onlineshopdemo.entity.Product;
 import com.example.onlineshopdemo.entity.ProductOwner;
 import com.example.onlineshopdemo.service.ProductOwnerService;
 
 import java.util.List;
 
+import com.example.onlineshopdemo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,17 +18,16 @@ import java.util.UUID;
 
 @Service
 public class DefaultProductOwnerService implements ProductOwnerService {
-
-    private final ProductOwnerRepository productOwnerRepository;
-
     @Autowired
-    public DefaultProductOwnerService(ProductOwnerRepository productOwnerRepository) {
-        this.productOwnerRepository = productOwnerRepository;
-    }
+    private  ProductOwnerRepository productOwnerRepository;
+    @Autowired
+    private ProductRepository service;
+
 
     @Override
-    public ProductOwner createProductOwner(ProductOwner productOwner) {
-        return productOwnerRepository.save(productOwner);
+    public String createProductOwner(ProductOwner productOwner) {
+        ProductOwner productOwnerSaved= productOwnerRepository.save(productOwner);
+        return Defaults.SUCCESS;
     }
 
     @Override
@@ -39,8 +42,17 @@ public class DefaultProductOwnerService implements ProductOwnerService {
     }
 
     @Override
-    public void deleteProductOwnerById(UUID productOwnerId) {
+    public String deleteProductOwnerById(UUID productOwnerId) {
+        ProductOwner productOwner=productOwnerRepository.findById(productOwnerId).orElse(null);
+        if ( productOwner==null){
+            return Defaults.FAIL;
+        }
+        List<Product> products=productOwner.getProductList();
+        for (Product product:products) {
+            service.deleteById(product.getId());
+        }
         productOwnerRepository.deleteById(productOwnerId);
+        return Defaults.SUCCESS;
     }
     @Override
     public ProductOwner getProductOwnerByEmail(String email){

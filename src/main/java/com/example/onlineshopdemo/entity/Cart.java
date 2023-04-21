@@ -16,7 +16,7 @@ public class Cart {
     private Customer customerCart;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "cart_cart_id",joinColumns = @JoinColumn(name = "cart_id")
+    @JoinTable(name = "cart_cart_item_id",joinColumns = @JoinColumn(name = "cart_id")
             ,inverseJoinColumns =@JoinColumn(name = "cart_item_id"))
     private List<CartItems> products;
 

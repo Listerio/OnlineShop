@@ -21,9 +21,8 @@ public class ProductOwnerController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductOwner> createProductOwner(@RequestBody ProductOwner productOwner) {
-        ProductOwner createdProductOwner = productOwnerService.createProductOwner(productOwner);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdProductOwner);
+    public String createProductOwner(@RequestBody ProductOwner productOwner) {
+        return productOwnerService.createProductOwner(productOwner);
     }
 
     @GetMapping
@@ -46,9 +45,8 @@ public class ProductOwnerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProductOwnerById(@PathVariable("id") UUID productOwnerId) {
-        productOwnerService.deleteProductOwnerById(productOwnerId);
-        return ResponseEntity.noContent().build();
+    public String deleteProductOwnerById(@PathVariable("id") UUID productOwnerId) {
+        return productOwnerService.deleteProductOwnerById(productOwnerId);
     }
 
 }

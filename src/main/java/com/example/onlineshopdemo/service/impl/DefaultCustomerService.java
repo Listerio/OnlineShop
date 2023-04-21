@@ -77,6 +77,10 @@ public class DefaultCustomerService implements CustomerService {
     }
     @Override
     public void update(Customer customer){
+        Customer check=customerRepository.findById(customer.getId()).orElse(null);
+        if (check==null){
+            return;
+        }
         customerRepository.save(customer);
     }
 

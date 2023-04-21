@@ -8,6 +8,7 @@ import com.example.onlineshopdemo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -22,7 +23,13 @@ public class DefaultProductService implements ProductService {
     @Override
     public void addProduct(Product product, String productOwnerEmail) {
         ProductOwner productOwner=productOwnerService.getProductOwnerByEmail(productOwnerEmail);
+        List<Product> products=productOwner.getProductList();
         product.setProductOwner(productOwner);
+        for (Product pr:products ) {
+            if (pr.equals(product)){
+                return;
+            }
+        }
         productRepository.save(product);
     }
 

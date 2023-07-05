@@ -4,10 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public enum Category {
+public enum   Category {
     CLOTHING("Clothing"),
     ELECTRONICS("Electronics"),
     FOOD("Food");
+
 
     private final String name;
 

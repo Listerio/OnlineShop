@@ -39,22 +39,13 @@ public class Product {
     @JsonProperty("img1")
     @Column(name = "product_image1")
     private String productImage1;
-    @JsonProperty("img3")
-    @Column(name = "product_image2")
-    private String productImage2;
-    @JsonProperty("img2")
-    @Column(name = "product_image3")
-    private String productImage3;
-    @JsonProperty("img4")
-    @Column(name = "product_image4")
-    private String productImage4;
     @OneToMany(mappedBy = "product")
     private List<CartItems> cartItems;
     @ManyToOne
     @JoinColumn(name = "product_owner_id")
     private ProductOwner productOwner;
 
-    private Product(){
+    public Product(){
 
     }
 
@@ -68,9 +59,7 @@ public class Product {
         this.productSubcategory=productSubcategory;
         this.productDescription = productDescription;
         this.productImage1 = productImage1;
-        this.productImage2 = productImage2;
-        this.productImage3 = productImage3;
-        this.productImage4 = productImage4;
+
     }
     public Product(Long id, String productName, double productPrice, String productCategory,
                    String productSubcategory, String productDescription, String productImage1,
@@ -83,9 +72,7 @@ public class Product {
         this.productSubcategory = Subcategory.valueOf(productSubcategory);
         this.productDescription = productDescription;
         this.productImage1 = productImage1;
-        this.productImage2 = productImage2;
-        this.productImage3 = productImage3;
-        this.productImage4 = productImage4;
+
 
     }
 
@@ -152,30 +139,6 @@ public class Product {
         this.productImage1 = productImage1;
     }
 
-    public String getProductImage2() {
-        return productImage2;
-    }
-
-    public void setProductImage2(String productImage2) {
-        this.productImage2 = productImage2;
-    }
-
-    public String getProductImage3() {
-        return productImage3;
-    }
-
-    public void setProductImage3(String productImage3) {
-        this.productImage3 = productImage3;
-    }
-
-    public String getProductImage4() {
-        return productImage4;
-    }
-
-    public void setProductImage4(String productImage4) {
-        this.productImage4 = productImage4;
-    }
-
     public List<OrderItem> getOrderItems() {
         return orderItems;
     }
@@ -201,12 +164,12 @@ public class Product {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Product product)) return false;
-        return Double.compare(product.getProductPrice(), getProductPrice()) == 0 && Objects.equals(getId(), product.getId()) && Objects.equals(getOrderItems(), product.getOrderItems()) && Objects.equals(getProductName(), product.getProductName()) && getProductCategory() == product.getProductCategory() && getProductSubcategory() == product.getProductSubcategory() && Objects.equals(getProductDescription(), product.getProductDescription()) && Objects.equals(getProductImage1(), product.getProductImage1()) && Objects.equals(getProductImage2(), product.getProductImage2()) && Objects.equals(getProductImage3(), product.getProductImage3()) && Objects.equals(getProductImage4(), product.getProductImage4()) && Objects.equals(getCartItems(), product.getCartItems()) && Objects.equals(getProductOwner(), product.getProductOwner());
+        return Double.compare(product.getProductPrice(), getProductPrice()) == 0 && Objects.equals(getId(), product.getId()) && Objects.equals(getOrderItems(), product.getOrderItems()) && Objects.equals(getProductName(), product.getProductName()) && getProductCategory() == product.getProductCategory() && getProductSubcategory() == product.getProductSubcategory() && Objects.equals(getProductDescription(), product.getProductDescription()) && Objects.equals(getProductImage1(), product.getProductImage1()) && Objects.equals(getCartItems(), product.getCartItems()) && Objects.equals(getProductOwner(), product.getProductOwner());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getOrderItems(), getProductName(), getProductPrice(), getProductCategory(), getProductSubcategory(), getProductDescription(), getProductImage1(), getProductImage2(), getProductImage3(), getProductImage4(), getCartItems(), getProductOwner());
+        return Objects.hash(getId(), getOrderItems(), getProductName(), getProductPrice(), getProductCategory(), getProductSubcategory(), getProductDescription(), getProductImage1(),getCartItems(), getProductOwner());
     }
 }
 

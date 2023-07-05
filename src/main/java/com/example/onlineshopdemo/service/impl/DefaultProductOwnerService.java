@@ -26,8 +26,14 @@ public class DefaultProductOwnerService implements ProductOwnerService {
 
     @Override
     public String createProductOwner(ProductOwner productOwner) {
-        ProductOwner productOwnerSaved= productOwnerRepository.save(productOwner);
-        return Defaults.SUCCESS;
+        Optional<ProductOwner> productOwnerRet=getAllProductOwners().stream().
+                filter(productOwner1 -> productOwner1.getEmail().equals(productOwner.getEmail())).findFirst();
+        if (productOwnerRet.isEmpty()){
+            ProductOwner productOwnerSaved= productOwnerRepository.save(productOwner);
+            return Defaults.SUCCESS;
+        }
+
+        return Defaults.FAIL;
     }
 
     @Override

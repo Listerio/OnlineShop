@@ -5,10 +5,12 @@ import com.example.onlineshopdemo.entity.Product;
 import com.example.onlineshopdemo.entity.ProductOwner;
 import com.example.onlineshopdemo.service.ProductOwnerService;
 import com.example.onlineshopdemo.service.ProductService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -34,10 +36,11 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public void addProduct(Product product, UUID productOwnerId) {
+    public Product addProduct(Product product, UUID productOwnerId) {
         ProductOwner productOwner=productOwnerService.getProductOwnerById(productOwnerId);
         product.setProductOwner(productOwner);
-        productRepository.save(product);
+        Product ret=productRepository.save(product);
+        return ret;
     }
     @Override
     public Product getProduct(Long id) {
@@ -49,12 +52,15 @@ public class DefaultProductService implements ProductService {
         productRepository.save(product);
     }
     @Override
-    public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+    @Transactional
+    public void deleteProduct(UUID productOwnerId,Long id) {
+        productRepository.deleteProduct(productOwnerId,id);
     }
 
-
-
+    @Override
+    public List<Product> products() {
+        return productRepository.findAll();
+    }
 
 
 }

@@ -3,6 +3,7 @@ package com.example.onlineshopdemo.entity;
 import com.example.onlineshopdemo.enumerations.UserRole;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import lombok.Data;
 import org.aspectj.weaver.ast.Or;
 
 import java.util.List;

@@ -19,6 +19,10 @@ public class Payment {
     @ManyToMany(mappedBy = "payments")
     private List<Customer> customers;
 
+    private String address;
+    private String state;
+    private String city;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
@@ -27,6 +31,7 @@ public class Payment {
     // Constructor, getters, and setters
 
     public Payment() {
+
     }
 
     public Payment(BigDecimal amount, LocalDate paymentDate, Order order) {
@@ -61,6 +66,30 @@ public class Payment {
 
     public LocalDate getPaymentDate() {
         return paymentDate;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public void setPaymentDate(LocalDate paymentDate) {

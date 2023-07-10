@@ -3,6 +3,7 @@ package com.example.onlineshopdemo.entity;
 import com.example.onlineshopdemo.enumerations.UserRole;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.Data;
 import org.aspectj.weaver.ast.Or;
 
@@ -15,7 +16,7 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL , fetch = FetchType.LAZY)
     private List<Order> orders;
     @Column(nullable = false, unique = true)
     private String email;
@@ -31,7 +32,7 @@ public class Customer {
     @Column(nullable = false)
     private UserRole userRole;
 
-    @OneToOne(mappedBy = "customerCart",cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "customerCart",cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Cart cart;
     @ManyToMany
     @JoinTable(name = "customer_payment",joinColumns = @JoinColumn(name = "customer_id"),
@@ -89,6 +90,7 @@ public class Customer {
         return password;
     }
 
+    @Transactional
     public List<Order> getOrders() {
         return orders;
     }
@@ -121,6 +123,7 @@ public class Customer {
         return name;
     }
 
+    @Transactional
     public Cart getCart() {
         return cart;
     }

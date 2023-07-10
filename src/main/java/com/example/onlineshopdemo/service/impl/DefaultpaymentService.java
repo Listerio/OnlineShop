@@ -5,12 +5,12 @@ import com.example.onlineshopdemo.defaults.Defaults;
 import com.example.onlineshopdemo.entity.*;
 import com.example.onlineshopdemo.enumerations.OrderStatus;
 import com.example.onlineshopdemo.service.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +32,8 @@ public class DefaultpaymentService implements PaymentService {
     }
 
     @Override
-    public String createPayment(String email) {
+    @Transactional
+    public String createPayment(String email, String[] personalDetails) {
         Customer customer=customerService.getCustomerByEmail(email).orElse(null);
         if(customer==null){
             return Defaults.FAIL;
@@ -40,9 +41,9 @@ public class DefaultpaymentService implements PaymentService {
         double totalPrice=0;
         LocalDate localDate=LocalDate.now();
         Cart cart=customer.getCart();
-        List<CartItems> cartItems=cart.getProducts();
+        List<CartItems> cartItems=cart.getCartItems();
 
-        if(cart.getProducts().isEmpty()){
+        if(cart.getCartItems().isEmpty()){
             return Defaults.FAIL;
         }
 
@@ -60,10 +61,12 @@ public class DefaultpaymentService implements PaymentService {
             item.setOrder(order);
             orderItemService.addOrderItem(item);
         }
-
         Payment payment=new Payment();
         BigDecimal price=BigDecimal.valueOf(totalPrice);
         payment.setAmount(price);
+        payment.setCity(personalDetails[0]);
+        payment.setState(personalDetails[1]);
+        payment.setAddress(personalDetails[2]);
         payment.setPaymentDate(localDate);
         payment.setOrder(order);
         paymentRepository.save(payment);

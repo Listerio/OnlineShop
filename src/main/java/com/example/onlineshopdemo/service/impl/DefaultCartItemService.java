@@ -44,42 +44,58 @@ public class DefaultCartItemService implements CartItemsService {
             return Defaults.FAIL;
         }
         // Create a new cart item with the product and quantity
-        CartItems newCartItem = new CartItems(product,number,customer);
+        CartItems newCartItem = new CartItems(product,number);
 
+        //Check if Product is already present
+        long newProductId= newCartItem.getProduct().getId();
+        List<CartItems> cartItemsList= cart.getCartItems();
+        for (CartItems c:cartItemsList) {
+            if (c.getProduct().getId()==newProductId){
+                return Defaults.FAIL;
+            }
+        }
         // Add the cart item to the cart
         cart.addToCart(newCartItem);
 
         // Save the new cart item to the database
-        cartItemRepository.save(newCartItem);
-
-        // Save the cart to the database
         cartRepository.save(cart);
+
         return Defaults.SUCCESS;
     }
-
+    @Transactional
     @Override
-    public String updateCartItem(CartItems cartItems, String customerMail) {
+    public void updateCartItem(int number, long cartItemsId, String customerMail) {
         Customer customer=customerService.getCustomerByEmail(customerMail).orElse(null);
         if (customer==null){
-            return Defaults.FAIL;
+            return;
         }
         Cart cart=customer.getCart();
-        List<CartItems> cartItemsList=cart.getProducts();
+        List<CartItems> cartItemsList=cart.getCartItems();
         if (cartItemsList.isEmpty()){
-            return Defaults.FAIL;
+            return;
         }
-        CartItems cartItemFromList=cartItemsList.stream().filter(cartItems1 ->
-                        cartItems1.getId().equals(cartItems.getId())).findFirst().get();
-        cartItemsList.remove(cartItemFromList);
-        cartItemsList.add(cartItems);
-        cart.setProducts(cartItemsList);
-        cartRepository.save(cart);
-        return Defaults.SUCCESS;
+        for (CartItems c:cartItemsList) {
+            if (c.getId()==cartItemsId){
+                System.out.println("foundIt");
+                c.setNumber(number);
+                cart.setCartItems(cartItemsList);
+                Cart update= cartRepository.save(cart);
+            }
+        }
     }
 
     @Override
-    public void deleteCartItems(Long id) {
-        cartItemRepository.deleteById(id);
+    @Transactional
+    public void deleteCartItems(long cartItemId, String email) {
+        Customer customer= customerService.getCustomerByEmail(email).orElse(null);
+        if (customer!=null){
+            Cart c= customer.getCart();
+            List<CartItems> cartItemsList = c.getCartItems();
+            CartItems cartItem = cartItemsList.stream().filter(cartItems -> cartItems.getId() == cartItemId).findFirst().orElse(null);
+            cartItemsList.remove(cartItem);
+            cartRepository.save(c);
+            cartItemRepository.deleteById(cartItemId);
+        }
     }
 
     @Override
@@ -94,20 +110,16 @@ public class DefaultCartItemService implements CartItemsService {
     }
 
     @Override
-    public List<CartItems> clearCart(String email) {
+    @Transactional
+    public void clearCart(String email) {
         Customer customer = customerService.getCustomerByEmail(email).orElse(null);
         if (customer!=null) {
-            Cart cart = cartRepository.findByCustomerCart(customer);
-            System.out.println("cartItems: "+cart.getProducts().toString());
+            Cart cart = customer.getCart();
+            List<CartItems> cartItemsList=cart.getCartItems();
             cart.clearCart();
-            List<CartItems> cartItemsList=cartItemRepository.findAllByCustomerId(customer.getId());
-            System.out.print("Cart item:  ");
-            cartItemsList.stream().forEach(System.out::println);
-            deleteAll(cartItemsList);
+            cartItemRepository.deleteAll(cartItemsList);
             cartRepository.save(cart);
-            return cart.getProducts();
         }
-        return null;
     }
 
     private void deleteAll(List<CartItems> cartItemsList){cartItemRepository.deleteAll(cartItemsList);}

@@ -5,7 +5,7 @@ import com.example.onlineshopdemo.entity.Payment;
 import java.util.List;
 
 public interface PaymentService {
-    String createPayment(String email);
+    String createPayment(String email, String[] personalDetials);
     List<Payment> getAllPayments();
     public List<Payment> getPaymentsPerCustomer(String email);
     Payment getPaymentById(Long paymentId);

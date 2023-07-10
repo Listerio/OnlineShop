@@ -16,25 +16,22 @@ public class CartItems {
     private Product product;
     @JsonProperty("number")
     private int number;
-    @ManyToMany(mappedBy = "products")
-    private List<Cart> cart;
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
-    public CartItems(Long id, Product product, int number, List<Cart> cart, Customer customer) {
+
+
+    public CartItems(Long id, Product product, int number ) {
         this.id = id;
         this.product = product;
         this.number = number;
-        this.cart = cart;
-        this.customer = customer;
+
+
     }
     public CartItems(){
 
     }
-    public CartItems(Product product, int number, Customer customer) {
+    public CartItems(Product product, int number) {
         this.product = product;
         this.number = number;
-        this.customer = customer;
+
     }
     public Long getId() {
         return id;
@@ -57,13 +54,7 @@ public class CartItems {
         this.number = number;
     }
 
-    public List<Cart> getCart() {
-        return cart;
-    }
 
-    public void setCart(List<Cart> cart) {
-        this.cart = cart;
-    }
 
     @Override
     public String toString() {

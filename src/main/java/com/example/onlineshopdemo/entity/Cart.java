@@ -15,10 +15,8 @@ public class Cart {
     @JoinColumn(name = "customer_id")
     private Customer customerCart;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "cart_cart_item_id",joinColumns = @JoinColumn(name = "cart_id")
-            ,inverseJoinColumns =@JoinColumn(name = "cart_item_id"))
-    private List<CartItems> products;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CartItems> cartItems;
 
     public Cart() {
 
@@ -30,10 +28,10 @@ public class Cart {
         this.id = id;
         this.customerCart = customerCart;
     }
-    public Cart(Long id, Customer customerCart, List<CartItems> products) {
+    public Cart(Long id, Customer customerCart, List<CartItems> cartItems) {
         this.id = id;
         this.customerCart = customerCart;
-        this.products = products;
+        this.cartItems = cartItems;
     }
     public Customer getCustomerCart() {
         return customerCart;
@@ -42,10 +40,10 @@ public class Cart {
         this.customerCart = customerCart;
     }
     public void addToCart(CartItems cartItems){
-        products.add(cartItems);
+        this.cartItems.add(cartItems);
     }
     public void removeFromCart(Long id){
-        products.removeIf(p -> Objects.equals(p.getId(), id));
+        cartItems.removeIf(p -> Objects.equals(p.getId(), id));
     }
     public Long getId() {
         return id;
@@ -53,14 +51,14 @@ public class Cart {
     public void setId(Long id) {
         this.id = id;
     }
-    public List<CartItems> getProducts() {
-        return products;
+    public List<CartItems> getCartItems() {
+        return cartItems;
     }
-    public void setProducts(List<CartItems> products) {
-        this.products = products;
+    public void setCartItems(List<CartItems> cartItems) {
+        this.cartItems = cartItems;
     }
     public void clearCart(){
-        products.clear();
+        cartItems.clear();
     }
 
     @Override
@@ -68,7 +66,7 @@ public class Cart {
         return "Cart{" +
                 "id=" + id +
                 ", customerCart=" + customerCart +
-                ", products=" + products.toString() +
+                ", products=" + cartItems.toString() +
                 '}'+"\n";
     }
 }

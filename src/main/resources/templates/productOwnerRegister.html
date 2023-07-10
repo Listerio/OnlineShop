@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Registration Page</title>
+  <link rel="stylesheet" th:href="@{/static/css/login.css}">
+  <link th:href="@{https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css}" rel='stylesheet'>
+<body>
+
+<div class="box">
+  <div class="container">
+    <div class="top">
+      <header>Registration Form</header>
+    </div>
+
+  <form th:action="@{/prodOwner/signUpProcessing}" th:object="${productOwner}" method="post">
+    <div class="input-field">
+      <input class="input" type="text" th:field="*{firstName}" placeholder="firstname" id="firstname" required>
+      <i class='bx bx-user'></i>
+    </div>
+    <div class="input-field">
+      <input type="text" class="input" th:field="*{lastName}" placeholder="lastname" id="lastname" required>
+      <i class="bx bx-user"></i>
+    </div>
+    <div class="input-field">
+      <input type="email" class="input" th:field="*{email}" id="email" placeholder="email" required>
+      <i class="bx bx-envelope"></i>
+    </div>
+    <div class="input-field">
+      <input type="password" class="input" th:field="*{password}" placeholder="password" id="password" required>
+      <i class="bx bx-lock"></i>
+    </div>
+    <div class="input-field">
+      <input type="submit" class="submit" value="Register">
+    </div>
+  </form>
+    <div class="two-col">
+      <div class="one">
+        <p>Already have an account? <a th:href="@{/customer/loginPage}">Login here</a></p>
+      </div>
+      <div class="two" th:if="${error}">
+        <p th:text="${error}"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

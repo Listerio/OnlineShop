@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/static/css/cart.css}">
+
+</head>
+<body>
+<div class="container">
+    <h1>Shopping Cart</h1>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th>Product</th>
+            <th>Product Image</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cartItem : ${cartItems}">
+            <td th:text="${cartItem.product.productName}"></td>
+            <td><img th:src="@{${cartItem.product.productImage1}}" alt="Product 1" class="product-image"></td>
+            <td th:text="${cartItem.product.productPrice}"></td>
+            <td>
+                <div class="wrapper">
+                    <a th:href="@{/cart/decrement/{cartItemId}(cartItemId=${cartItem.id})}"><span class="minus">-</span></a>
+                    <span class="num" th:text="${cartItem.number}"></span>
+                    <a th:href="@{/cart/increment/{cartItemId}(cartItemId=${cartItem.id})}"><span class="plus" th:data-qty="${cartItem.number}" th:data-productid="${cartItem.product.id}">+</span></a>
+                </div>
+            </td>
+            <td id="total" th:text="${cartItem.product.productPrice} * ${cartItem.number}"></td>
+            <td>
+                <a th:href="@{/cart/delete/{cartItemId}(cartItemId = ${cartItem.id})}" class="btn-sm btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="contain">
+        <div class="input-group input-group-lg">
+            <span class="input-group-text" id="inputGroup-sizing-lg">Total Price</span>
+            <input type="text" class="form-control" th:value="'₦ '+ ${totalPrice}"  aria-label="Sizing example input" disabled aria-describedby="inputGroup-sizing-lg">
+        </div>
+    </div>
+
+    <div>
+        <form th:action="@{/pay/loadPage}" method="get">
+        <button type="submit" class="btn btn-primary">Buy now</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

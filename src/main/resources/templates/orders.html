@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/css/cart.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <h1>Order History</h1>
+
+    <!-- Order History Section -->
+    <h3>Order History</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Order ID</th>
+            <th scope="col">Order Date</th>
+            <th scope="col">Items Ordered</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterate over orders -->
+        <th:block th:each="order : ${orders}">
+            <tr>
+                <th scope="row" th:text="${order.id}"></th>
+                <td th:text="${order.orderDate}"></td>
+                <td>
+                    <ul>
+                        <!-- Iterate over order items for each order -->
+                        <th:block th:each="orderItem : ${orderItemsMap[order.id]}">
+                            <li th:text="'Product Name: '+ ${orderItem.orderedProduct.productName} +' Number bought : ' + ${orderItem.quantity}"></li>
+                            <img class="product-image" th:src="@{${orderItem.orderedProduct.productImage1}}" alt="Picture">
+                        </th:block>
+                    </ul>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+
+    <!-- Payment History Section -->
+    <h3>Payment History</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Payment ID</th>
+            <th>Payment Date</th>
+            <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterate over payments -->
+        <th:block th:each="payment : ${payments}">
+            <tr>
+                <td th:text="${payment.id}"></td>
+                <td th:text="${payment.paymentDate}"></td>
+                <td th:text="${payment.amount}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+
+    <!-- Total Spent -->
+    <h4>Total Spent: <span th:text="${totalSpent}"></span></h4>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+</html>

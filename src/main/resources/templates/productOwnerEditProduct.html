@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/css/productowner.css">
+    <link th:href="@{https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css}" rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container">
+    <div class="form-group">
+        <h2><span class="big">Edit</span> Product</h2>
+        <form th:action="@{/prodOwner/editProduct}" method="post" th:object="${product}">
+            <div class="mb-3">
+                <label for="productName" class="form-label">Product Name:</label>
+                <input type="text" class="form-control" id="productName" th:field="*{productName}"
+                       th:value="product.getProductName" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="price" class="form-label">Price:</label>
+                <input type="number" class="form-control" id="price" th:field="*{productPrice}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="subCategory" class="form-label">Subcategory: </label>
+                <select id="subCategory" class="form-control" th:field="*{productSubcategory}" required>
+                    <option value="">Select subcategory</option>
+                    <option th:each="subcategory : ${subCategories}" th:value="${subcategory}"
+                            th:text=" 'Subcategory: '+ ${subcategory.getName()} + ' ' + 'Category: ' + ${subcategory.getCategory().getName()}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="productDescription" class="form-label">Product Description:</label>
+                <textarea class="form-control" cols="5" rows="3" id="productDescription"
+                          th:field="*{productDescription}" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="productImage" class="form-label">Product Image:</label>
+                <input type="file" id="productImage" accept="image/jpeg, image/png" th:field="*{productImage1}"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <input type="submit" class="btn btn-primary" value="Add Product">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+.page{
+    width: 100vw;
+    margin-bottom: 100px;
+}
+.prodImage{
+    height: 120px
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+.container {
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.form-group {
+    width: 50%;
+    height: 85%;
+}
+
+.big {
+    color: red;
+    font-size: 50px;
+}
+
+#productImage {
+    border-radius: none;
+}
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+border: 1px solid black;
+padding: 8px;
+text-align: left;
+}
+.edge{
+    padding: 30px;
+    align-items: center;
+}
+.a-link{
+    background-color: red;
+    color: white;
+    padding: 5px;
+    border-radius: 11px;
+    text-decoration: none;
+    margin: 30px;
+    transition: 0.3s;
+    transition-timing-function:ease-in-out;
+}
+.a-link:hover{
+    color: black;
+}

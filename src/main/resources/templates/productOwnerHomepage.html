@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/static/css/productowner.css}">
+    <link th:href="@{https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css}" rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+<title>Product List</title>
+
+</head>
+<section class="page">
+    <div class="edge">
+
+        <h1>Product List</h1>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Sub Category</th>
+                <th>ProductDescription</th>
+                <th>ProductImage1</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${productList}">
+                <td th:text="${product.id}"></td>
+                <td th:text="${product.productName}"></td>
+                <td th:text="${product.productPrice}"></td>
+                <td th:text="${product.getProductSubcategory().getName()}"></td>
+                <td th:text="${product.getProductCategory().getName()}"></td>
+                <td th:text="${product.productDescription}"></td>
+                <td><img class="prodImage" th:src="@{${product.productImage1}}" alt="product"></td>
+                <td>
+                    <a th:href="@{/prodOwner/delete/{productId}(productId=${product.id})}">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+            <p style="color:red" th:text="${deleteError}"></p>
+        </table>
+        <a th:href="@{/prodOwner/logout}"><button class="btn btn-primary">Logout</button></a>
+    </div>
+</section>
+<section class="page">
+    <div class="edge" style="justify-content: left;">
+        <div class="form-group">
+            <h2>Edit Product</h2>
+            <form th:action="@{/prodOwner/edit}" method="post">
+                <div class="mb-3">
+                    <label class="form-label" for="prodId">Product ID:</label>
+                    <input class="form-control" type="number" id="prodId" name="prodId" required>
+                </div>
+
+                <input class="btn btn-primary" type="submit" value="Edit Product">
+                <div th:if="${updateError}">
+                    <p style="color:red" th:text="${updateError}"></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<section class="page">
+    <div class="container">
+        <div class="form-group">
+            <h2>Add Product</h2>
+            <form th:action="@{/prodOwner/addProduct}" method="post" th:object="${NewProduct}">
+                <div class="mb-3">
+                    <label class="form-label" for="productName">Product Name:</label>
+                    <input type="text" class="form-control" id="productName" th:field="*{productName}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price:</label>
+                    <input type="number" id="price" class="form-control" th:field="*{productPrice}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="subCategory" class="form-label">Subcategory: </label>
+                    <select id="subCategory" class="form-control" th:field="*{productSubcategory}" required>
+                        <option value="">Select subcategory</option>
+                        <option th:each="subcategory : ${subCategories}" th:value="${subcategory}"
+                                th:text=" 'Subcategory: '+ ${subcategory.getName()} + ' ' + 'Category: ' + ${subcategory.getCategory().getName()}">
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="productDescription" class="form-label">Product Description:</label><br>
+                    <textarea id="productDescription" class="form-control" th:field="*{productDescription}"
+                              required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="productImage">Product Image:</label>
+                    <input type="file" id="productImage" accept="image/jpeg, image/png" th:field="*{productImage1}"
+                           required>
+                </div>
+                <div class="mb-3">
+                    <input type="submit" class="btn btn-primary" value="Add Product">
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

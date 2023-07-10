@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/index.css">
+
+    <title>Document</title>
+</head>
+<body>
+    <header th:replace="~{includes/Navbar.html :: navbar}"></header>
+
+    <section>
+        <div class="one">
+            <div class="item-grid">
+                <div th:each="product : ${all_products}" th:if="${product.getProductSubcategory().name == T(com.example.onlineshopdemo.enumerations.Subcategory).SHIRTS.name}" class="item-card">
+                    <img th:src="@{${product.productImage1}}"  alt="Product Image" class="product-image">
+                    <div class="product-details">
+                        <h2 class="product-title" th:text="${product.productName}"></h2>
+                        <p class="product-price" th:text="'₦ ' + ${product.productPrice}"></p>
+                        <button class="add-to-cart-button"><a th:href="@{/cart/addToCart/{productId}(productId=${product.id})}" class="add-to-cart-button">Add to Cart</a></button>
+                    </div>
+                </div>
+                <!-- Add more item-card divs as needed -->
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="one">
+            <div class="item-grid">
+                <div th:each="product : ${all_products}" th:if="${product.getProductSubcategory().name == T(com.example.onlineshopdemo.enumerations.Subcategory).PANTS.name}" class="item-card">
+                        <img th:src="@{${product.productImage1}}"  alt="Product Image" class="product-image">
+                    <div class="product-details">
+                        <h2 class="product-title" th:text="${product.productName}"></h2>
+                        <p class="product-price" th:text="'₦ ' + ${product.productPrice}"></p>
+                        <button class="add-to-cart-button"><a th:href="@{/cart/addToCart/{productId}(productId=${product.id})}" class="add-to-cart-button">Add to Cart</a></button>
+                    </div>
+                </div>
+                <!-- Add more item-card divs as needed -->
+            </div>
+        </div>
+    </section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

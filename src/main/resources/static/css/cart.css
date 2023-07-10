@@ -1,0 +1,29 @@
+.product-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+}
+.wrapper{
+    height: 30px;
+    min-width: 80px;
+    background: #fff;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.wrapper span{
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 200px;
+}
+.wrapper span.num{
+    font-size: 20px;
+    border-right: 2px solid rgba(0, 0, 0, 2);
+    border-left: 2px solid rgba(0, 0, 0, 2);
+}
+.contain{
+   width: 200px;
+   margin: 20px 0 20px 0;
+}
